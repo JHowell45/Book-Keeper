@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from rest_framework import status
+from rest_framework.authentication import BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -66,3 +68,11 @@ class Register(APIView):
                 {"error": "Unexpected error occurred, please report this to Admin"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
+
+
+class Login(APIView):
+    authentication_classes = (BasicAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        return Response("Authentication Successful.")
